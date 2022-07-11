@@ -7,6 +7,40 @@
   pointer-events: none;
 }
 
+
+.video-container {
+  display: flex;
+}
+
+.video-zone {
+  position: relative;
+}
+
+.timestap-zone {
+  display: none;
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  border: 2px solid green;
+}
+
+.video {
+  z-index: 1;
+
+  padding-right: 24px;
+}
+
+.timestamps {
+  height: 400px;
+  width: 400px;
+  overflow-x: scroll;
+}
+
+.timestamp {
+  cursor: pointer;
+  padding-bottom: 8px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -32,6 +66,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
