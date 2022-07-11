@@ -57,13 +57,14 @@ export default function TimeStampVideo(props: any) {
             canvasRef.current!.style.top = stamps[indexTimestamp].zone.top + 'px'
             canvasRef.current!.style.left = stamps[indexTimestamp].zone.left + 'px'
 
-            setTimeout(() => {
-                canvasRef.current!.style.display = 'none'
-                canvasRef.current!.width = 0
-                canvasRef.current!.height = 0
-                canvasRef.current!.setAttribute('top', '0px')
-                canvasRef.current!.setAttribute('left', '0px')
-            }, stamps[indexTimestamp].duration)
+            if (!videoRef.current?.paused)
+                setTimeout(() => {
+                    canvasRef.current!.style.display = 'none'
+                    canvasRef.current!.width = 0
+                    canvasRef.current!.height = 0
+                    canvasRef.current!.setAttribute('top', '0px')
+                    canvasRef.current!.setAttribute('left', '0px')
+                }, stamps[indexTimestamp].duration)
 
         }
     }
