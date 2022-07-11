@@ -51,20 +51,23 @@ export default function TimeStampVideo(props: any) {
             .indexOf(parseInt(tmstmp.substring(0, tmstmp.length - 3)))
 
         if (indexTimestamp > -1) {
-            canvasRef.current!.style.display = 'block'
-            canvasRef.current!.style.width = stamps[indexTimestamp].zone.width + 'px'
-            canvasRef.current!.style.height = stamps[indexTimestamp].zone.height + 'px'
-            canvasRef.current!.style.top = stamps[indexTimestamp].zone.top + 'px'
-            canvasRef.current!.style.left = stamps[indexTimestamp].zone.left + 'px'
+            const ctx = canvasRef.current?.getContext('2d')
 
-            if (!videoRef.current?.paused)
-                setTimeout(() => {
-                    canvasRef.current!.style.display = 'none'
-                    canvasRef.current!.width = 0
-                    canvasRef.current!.height = 0
-                    canvasRef.current!.setAttribute('top', '0px')
-                    canvasRef.current!.setAttribute('left', '0px')
-                }, stamps[indexTimestamp].duration)
+            ctx!.strokeStyle = "green";
+            ctx?.strokeRect(
+                stamps[indexTimestamp].zone.left % (canvasRef.current!.width - 20),
+                stamps[indexTimestamp].zone.top % (canvasRef.current!.height - 20),
+                stamps[indexTimestamp].zone.width / 2,
+                stamps[indexTimestamp].zone.height / 2)
+
+            // очищаем канву по истечению duration 
+            setTimeout(() => {
+                ctx?.clearRect(
+                    0,
+                    0,
+                    canvasRef.current?.width || 0,
+                    canvasRef.current?.height || 0);
+            }, stamps[indexTimestamp].duration)
 
         }
     }
@@ -83,17 +86,19 @@ export default function TimeStampVideo(props: any) {
 
         </div>
 
-        <div className='timestamps'>
-            {
-                stamps ? stamps?.map((ts: TimeStampAnalytic, index: number) => {
-                    function handleClick() {
-                        videoRef.current!.currentTime = (ts.timestamp / 1000)
-                    }
-                    return <div key={index} className='timestamp' onClick={handleClick}>
-                        {convertMsToDate(ts.timestamp)}
-                    </div>
-                }) : null
-            }
+        <div>
+            <div className='timestamps'>
+                {
+                    stamps ? stamps?.map((ts: TimeStampAnalytic, index: number) => {
+                        function handleClick() {
+                            videoRef.current!.currentTime = (ts.timestamp / 1000)
+                        }
+                        return <div key={index} className='timestamp' onClick={handleClick}>
+                            {convertMsToDate(ts.timestamp)}
+                        </div>
+                    }) : null
+                }
+            </div>
         </div>
     </div>
 }

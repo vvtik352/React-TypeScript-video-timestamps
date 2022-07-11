@@ -17,11 +17,11 @@
 }
 
 .timestap-zone {
-  display: none;
+  /* display: none; */
+  width: 1280px;
   position: absolute;
   z-index: 0;
   left: 0;
-  border: 2px solid green;
 }
 
 .video {
